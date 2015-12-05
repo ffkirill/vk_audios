@@ -58,28 +58,28 @@ ColumnLayout {
                 }
            }
         }
-        Item {
-            height: Units.dp(40)
-            width: Units.dp(40)
-            ActionButton {
-                anchors.centerIn: parent
-                height: Units.dp(30)
-                width: Units.dp(30)
-                elevation: 0
-                backgroundColor: 'white'
-                iconName: 'file/cloud_download'
-                action: Action {
-                    onTriggered: AudioPlayer.enqueueAll();
-                }
-           }
-        }
+//        Item {
+//            height: Units.dp(40)
+//            width: Units.dp(40)
+//            ActionButton {
+//                anchors.centerIn: parent
+//                height: Units.dp(30)
+//                width: Units.dp(30)
+//                elevation: 0
+//                backgroundColor: 'white'
+//                iconName: 'file/cloud_download'
+//                action: Action {
+//                    onTriggered: AudioPlayer.enqueueAll();
+//                }
+//           }
+//        }
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             ListItem.Subtitled {
                 anchors.fill: parent
-                text: (AudioPlayer.item && AudioPlayer.item.title) || ''
-                subText: (AudioPlayer.item && AudioPlayer.item.artist) || ''
+                text: AudioPlayer.title
+                subText: AudioPlayer.artist
                 valueText: Math.floor(
                     Math.floor(AudioPlayer.player.position / 60000)) + ':'
                     + String(

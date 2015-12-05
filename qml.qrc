@@ -10,5 +10,6 @@
         <file>ui/PlayerControl.qml</file>
         <file>modules/PlayListView.qml</file>
         <file>modules/GroupsLoaderModel.qml</file>
+        <file>modules/AudioSearchModel.qml</file>
     </qresource>
 </RCC>

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QNetworkAccessManager>
+#include <QDir>
 
 class AudioGrabber : public QObject
 {
@@ -10,6 +11,7 @@ class AudioGrabber : public QObject
 public:
     explicit AudioGrabber(QObject *parent = 0);
     Q_INVOKABLE void enqueueUrl(const QString &url);
+    QDir pathToSave;
 signals:
 
 public slots:

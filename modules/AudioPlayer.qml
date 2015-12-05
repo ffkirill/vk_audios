@@ -32,7 +32,8 @@ QtObject {
     property bool _stopedByUser: false
     property string url: ""
     property ListModel model: ListModel{}
-    property var item: undefined
+    property string title: ""
+    property string artist: ""
     property int index: 0
     property int ratio: 0
 
@@ -53,7 +54,11 @@ QtObject {
             index = _index;
             _stopedByUser = false;
         }
-        item = model.get(_index);
+        var item = model.get(_index);
+        if (item) {
+            artist = item.artist;
+            title = item.title;
+        }
     }
 
     function playNext() {

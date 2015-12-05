@@ -14,12 +14,12 @@ Item {
         model.clear();
         request.open('GET',
             'https://api.vk.com/method/groups.get?'
-                     + '&access_token=' + Settings.accessToken
-                     + '&user_id=' + (userId || Settings.currentUserId)
-                     + '&extended=' + (extended? 1 : 0)
-                     + '&v=' + Settings.apiVersion
+            + '&access_token=' + Settings.accessToken
+            + '&user_id=' + String(userId || Settings.currentUserId)
+            + '&extended=' + String(extended? 1 : 0)
+            + '&v=' + Settings.apiVersion
         );
-//        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
         request.onreadystatechange = function() {
             if (request.readyState === XMLHttpRequest.DONE) {
                 var jsonResponse = JSON.parse(request.responseText)

@@ -3,7 +3,6 @@ import Material 0.1
 import Material.ListItems 0.1 as ListItem
 import '../modules'
 
-
 TabbedPage {
     id: wrapper
     title: 'VK Audios'
@@ -18,8 +17,9 @@ TabbedPage {
                 text: "VK Audios"
                 anchors.left: parent.left
                 anchors.top: parent.top
-                color: Theme.lightDark(actionBar.backgroundColor, Theme.light.textColor,
-                                                                    Theme.dark.textColor)
+                color: Theme.lightDark(actionBar.backgroundColor,
+                                       Theme.light.textColor,
+                                       Theme.dark.textColor)
                 elide: Text.ElideRight
 
             }
@@ -41,6 +41,11 @@ TabbedPage {
                     anchors.left: parent.left
                     anchors.leftMargin: Units.dp(4)
                     placeholderText: "Search..."
+                    onAccepted: {
+                        audiosSearcher.byArtist = false;
+                        tabBar.selectedIndex = tabs.count - 1;
+                        audiosSearcher.search(text);
+                    }
                 }
             }
         }
@@ -58,6 +63,10 @@ TabbedPage {
         userId: '-' + groupAudiosTab.selectedGroup
     }
 
+    AudioSearchModel {
+        id: audiosSearcher
+    }
+
     Tab {
        title: "My"
        id: myAudiosTab
@@ -65,17 +74,19 @@ TabbedPage {
            id: listView
            anchors.fill: parent
            model: ownAudiosLoader.model
-           onArtistSearch: console.log(artist)
+           onArtistSearch: searchByArtist(artist)
        }
        function reload() {
            ownAudiosLoader.reload()
        }
     }
+
     Tab {
         id: groupAudiosTab
         title: "Groups"
 
         property int selectedGroup
+        property bool fromWall
 
         Item {
             id: groupAudiosTabWrapped
@@ -91,16 +102,39 @@ TabbedPage {
                         model: groupsLoader.model
                         delegate: ListItem.Standard {
                             property var item: groupsLoader.model.get(index)
-                            text: (item && item.name) || ''
+                            text: '<a href="#group_own">'
+                                  + ((item && item.name) || '') + '</a>'
+                            itemLabel {
+                                style: 'body1'
+                                textFormat: Text.StyledText
+                                linkColor: (itemLabel.hoveredLink?
+                                                Theme.primaryColor : Qt.darker(Theme.primaryColor))
+                                text: '<a href="#search_artist">Wall</a>'
+                                onLinkActivated: {
+                                    groupAudiosTab.selectedGroup = item.id;
+                                    groupAudiosLoader.fromWall = false;
+                                    groupAudiosLoader.userId = '-' + item.id;
+                                    groupAudiosLoader.reload();
+                                }
+                            }
+                            secondaryItem:  Label {
+                                id: artistLink
+                                anchors.verticalCenter: parent.verticalCenter
+                                textFormat: Text.StyledText
+                                linkColor: (artistLink.hoveredLink?
+                                                Theme.primaryColor : Qt.darker(Theme.primaryColor))
+                                text: '<a href="#search_artist">Wall</a>'
+                                onLinkActivated: {
+                                    groupAudiosTab.selectedGroup = item.id;
+                                    groupAudiosLoader.fromWall = true;
+                                    groupAudiosLoader.userId = '-' + item.id;
+                                    groupAudiosLoader.reload();
+                                }
+                            }
                             selected: (
                                 item
                                 && item.id === groupAudiosTab.selectedGroup)
                                 || false
-                            onClicked: {
-                                groupAudiosTab.selectedGroup = item.id;
-                                groupAudiosLoader.userId = '-' + item.id;
-                                groupAudiosLoader.reload();
-                            }
                             action: Image {
                                 source: (item && item.photo_50) || '';
                             }
@@ -117,30 +151,24 @@ TabbedPage {
                     top: parent.top
                     bottom: parent.bottom
                 }
+                onArtistSearch: searchByArtist(artist)
                 model: groupAudiosLoader.model
             }
         }
         function reload() {
             groupsLoader.reload()
         }
-
-
     }
+
     Tab {
-       title: "Friends"
-       Rectangle { color: "green" }
-       function reload() {
-
-       }
-
-    }
-    Tab {
-       title: "Search"
-       Rectangle { color: "green" }
-       function reload() {
-
-       }
-
+        title: "Search"
+        id: searchAudiosTab
+        PlayListView {
+            anchors.fill: parent
+            model: audiosSearcher.model
+            onArtistSearch: searchByArtist(artist)
+        }
+        function reload() {}
     }
 
     onSelectedTabChanged: {
@@ -150,5 +178,11 @@ TabbedPage {
 
     function reload() {
         tabs.getTab(selectedTab).reload()
+    }
+
+    function searchByArtist(query) {
+        audiosSearcher.byArtist = true;
+        audiosSearcher.search(query);
+        tabBar.selectedIndex = tabs.count - 1;
     }
 }

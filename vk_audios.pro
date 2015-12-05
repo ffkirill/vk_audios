@@ -8,6 +8,8 @@ SOURCES += main.cpp \
 
 RESOURCES += qml.qrc
 
+ICON = vk.icns
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -31,7 +33,8 @@ DISTFILES += \
     Info.plist \
     ui/PlayerControl.qml \
     modules/PlayListView.qml \
-    modules/GroupsLoaderModel.qml
+    modules/GroupsLoaderModel.qml \
+    modules/AudioSearchModel.qml
 
 HEADERS += \
     audiograbber.h
