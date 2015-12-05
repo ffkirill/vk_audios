@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ui/LoginPage.qml</file>
+        <file>modules/Settings.qml</file>
+        <file>modules/qmldir</file>
+        <file>modules/AudioLoaderModel.qml</file>
+        <file>ui/MyAudiosPage.qml</file>
+        <file>modules/AudioPlayer.qml</file>
+        <file>ui/PlayerControl.qml</file>
+        <file>modules/PlayListView.qml</file>
+        <file>modules/GroupsLoaderModel.qml</file>
+    </qresource>
+</RCC>

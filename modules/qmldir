@@ -1,0 +1,5 @@
+singleton Settings 1.0 Settings.qml
+singleton AudioPlayer 1.0 AudioPlayer.qml
+AudioLoaderModel 1.0 AudioLoaderModel.qml
+PlayListView 1.0 PlayListView.qml
+GroupsLoaderModel 1.0 GroupsLoaderModel.qml
