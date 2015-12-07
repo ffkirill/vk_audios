@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtWebKit 3.0
+import QtWebView 1.0
 
 Item {
     id: authControl
@@ -14,9 +14,8 @@ Item {
             + '&scope=friends,groups,audio,wall&response_type=token&v=5.40'
             + '&state=login_succeed'
         anchors.fill: parent
-        onNavigationRequested: {
-            var url = String(request.url);
-            request.action = WebView.AcceptRequest;
+        onUrlChanged: {
+            var url = String(webView.url);
             if (url.indexOf(_redirectUrl) === 0) {
                 var params = {},
                     paramsUnparsed = url.substring(
