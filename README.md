@@ -1,4 +1,4 @@
-## VK Audios player
+## VK Audio player
 
 Qt/QML-based desktop audio player for vk.com.
 
